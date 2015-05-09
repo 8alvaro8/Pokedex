@@ -19,10 +19,10 @@ import javax.imageio.ImageIO;
 
 /**
  *
- * @author jorgecisneros
+ * ALVARO FELICES
  */
 public class VentanaPokedex extends javax.swing.JFrame {
-
+     // variables 
     private BufferedImage buffer;
     private Image imagenPokemons;
     private int contador = 0;
@@ -42,6 +42,8 @@ public class VentanaPokedex extends javax.swing.JFrame {
     /**
      * Creates new form VentanaPokedex
      */
+    
+        //coge la posicion del pokemo que quiere pintar 
     private void dibujaElPokemonQueEstaEnLaPosicion (int posicion){
         int fila = posicion / 31;
         int columna = posicion % 31;
@@ -62,7 +64,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
         repaint();
         escribeDatos();
     }
-    
+        //escribe los datos que obtengo de la consulta y los pinta en varios jlabel
     private void escribeDatos(){
         Pokemon p = listaPokemons.get(String.valueOf(contador+1));
         if (p != null){
@@ -74,6 +76,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
             anchura.setText(p.weight);
             
         }
+        //en caso de no tener datos de ese pokemon en la base de datos devuelve lo siguiente
         else {
             jLabel1.setText("EXTINGUIDO CUAL KABUTO");
             especie.setText("NO SE SABE");
@@ -90,14 +93,16 @@ public class VentanaPokedex extends javax.swing.JFrame {
         g2.drawImage(buffer, 0, 0,alto,ancho, null);
     }
     
+    
     public VentanaPokedex() {
-        initComponents();
+        //la imagen se pinta correctamente
         try {
             imagenPokemons = ImageIO.read(getClass().getResource("black-white.png"));
+         //si la imagen no se pinta   
         } catch (IOException ex) {
             Logger.getLogger(VentanaPokedex.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        //pinta la imagen
         buffer =(BufferedImage) jPanel1.createImage(ancho,alto);
         Graphics2D g2 = buffer.createGraphics();
         
@@ -107,8 +112,11 @@ public class VentanaPokedex extends javax.swing.JFrame {
         //conexion a la base de datos//////////////////
         try{
             Class.forName("com.mysql.jdbc.Driver");
+            //me conecto con un root y contraseña
             conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/test","root","");
+            //estado de la consulta
             estado = conexion.createStatement();
+            //hago la consulta
             resultadoConsulta = estado.executeQuery("Select* from pokemon");
             //cargo el resultado de la query en mi hashmap
             
@@ -288,7 +296,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+        //si pulso el boton anterior
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
         contador--;
         if (contador < 0) {contador = 0;}
@@ -296,7 +304,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton1MousePressed
-
+        //si pulso el boton siguiente
     private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
         contador++;
         if (contador > 507) {contador = 0;}
